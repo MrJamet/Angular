@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Accueil.htm" />
+    <Content Include="JS\angular-animate.js" />
+    <Content Include="JS\angular-route.js" />
     <Content Include="JS\angular.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
