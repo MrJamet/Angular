@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Tranitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="myComptabilityApp">
+  <head>
+    <meta charset="utf-8">
+    <title>My comptability</title>
+    <script type="text/javascript" src="AngularLib/angular.js"></script>
+    <script type="text/javascript">
+        var myComptabilityApp = angular.module("myComptabilityApp", []);
+        myComptabilityApp.controller("mycontrollertest", function($scope, $http){                    
+            $scope.Devices = ['EUR','UK','USD'];
+            $scope.AddDevice = function(){
+                $scope.Devices.push($scope.NewDevice);
+                $scope.NewDevice = '';
+            };
+            $scope.RemoveDevice = function(Device){
+                var index = $scope.Devices.indexOf(Device);
+                $scope.Devices.splice(index,1);
+            };
+            $http.get('AccountRecord.json').success(function(data) {
+              $scope.Records = data;
+            });
+
+            $scope.AddRecord = function(){
+                $scope.Records.push({"wDescription":$scope.wDescription, "wAmount":$scope.wAmount, "wDateTime":$scope.wDateTime, "wType":$scope.wType});
+                $scope.wDescription = '';
+                $scope.wAmount = '';
+                $scope.wDateTime = '';
+                $scope.wType = '';
+            };
+            $scope.sortField = 'population';
+        });
+    </script>
+  </head>
+  <body ng-controller="mycontrollertest">
+
+    <div>                
+        <ul>
+            <li id="DeviceID" ng-repeat="Device in Devices">{{Device}}
+                <a href="" ng-click="RemoveDevice(Device)")>remove</a>
+            </li>
+        </ul>
+
+        <form ng-submit="AddDevice()">
+            <input id="NewDeviceId" type="text" ng-model="NewDevice"/>
+            <input id="NewDeviceAddId" type="submit" value="Add"/>
+        </form>
+
+        <select id="TypeId" ng-model="Type">
+            <option value="default" selected="selected">default</option>
+            <option value="course">course</option>
+            <option value="pret">prêt</option>
+            <option value="cadeaux">cadeaux</option>                
+        </select>   
+
+        <Br/>
+Search : <input ng-model="query" type="text"/>
+        <table style="width:100%">
+            <tr>
+                <th><a href="" ng-click="sortField = 'wDescription'">Description</a></th>
+                <th><a href="" ng-click="sortField = 'wAmount'">Montant</a></th>
+                <th><a href="" ng-click="sortField = 'wDateTime'">Date de valeur</a></th>
+                <th><a href="" ng-click="sortField = 'wType'">Type</a></th>
+            </tr>
+            <tr ng-repeat="Record in Records | filter:query | orderBy:sortField">
+                <td>{{Record.wDescription}}</td>
+                <td>{{Record.wAmount}}</td>
+                <td>{{Record.wDateTime}}</td>
+                <td>{{Record.wType}}</td>
+            </tr>
+        </table>    
+        <form ng-submit="AddRecord()">
+            <input id="DescriptionId" type="text" ng-model⁼"wDescription"></input>
+            <input id="AmountId" type="text" ng-model⁼"wAmount"></input>
+            <input id="DateTimeId" type="text" ng-model⁼"wDateTime"></input>
+            <input id="TypeId" type="text" ng-model⁼"wType"></input>
+            <input id="RecordAddId" type="submit" value="Add"></input>
+        </form>
+    </div>
+
+  </body>
+</html>
