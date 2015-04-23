@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Tranitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--TODO ng-app : -->
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="customersApp">
+    <head>
+        <title>Angular app</title>
+    </head>
+    <body>
+        <div ng-controller="CustomersController">
+            Search : <input type="text" ng-model="searchtext"/>{{searchtext}}
+            <br />
+            <h3>Customers :</h3>
+            <table>
+                <tr ng-repeat="custom in customers | filter : searchtext">
+                    <td>{{custom.name}}</td>
+                    <td>{{custom.total | currency}}</td>
+                </tr>
+            </table>
+
+        </div>
+        <script type="text/javascript" src="JS/angular.js"></script>
+        <script type="text/javascript" src="JS/angular-route.js"></script>
+        <script type="text/javascript" src="JS/angular-animate.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module("customersApp", []);
+            app.controller('CustomersController', function($scope){
+                $scope.customers = [
+                    {"id":1, "name":"Ted", "total":5.996},
+                    {"id":2, "name":"Teddy", "total":4.430},
+                    {"id":3, "name":"Bob", "total":2.520},
+                    {"id":4, "name":"Bobby", "total":0.911}
+                ];            
+            });
+        
+        
+        </script>
+    </body>
+</html>
